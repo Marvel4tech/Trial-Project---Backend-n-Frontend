@@ -1,3 +1,5 @@
+import Note from "../models/noteModel.js"
+
 export const homePage = async (req, res) => {
     try {
         console.log("Welcome to homepage")
@@ -9,7 +11,14 @@ export const homePage = async (req, res) => {
 
 export const addNote = async (req, res) => {
     try {
-        res.status(200).json({ message: "Note is added successfully" })
+        const { text } = req.body
+
+        //METHOD 2 (TO SAVE DOCUMENT TO DATABASE ALSO)
+        //const newNote = new Note({ text })
+        //await newNote.save()
+
+        const newNote = await Note.create({ text })
+        res.status(200).json({ message: "Note is added successfully", note: newNote })
     } catch (error) {
         res.status(500).json({ message: error })
     }
