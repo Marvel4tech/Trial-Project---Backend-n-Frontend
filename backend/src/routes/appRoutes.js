@@ -5,7 +5,7 @@ const router = Router()
 
 router.get("/", homePage)
 router.post("/", addNote)
-router.put("/", updateNote)
-router.delete("/", deleteNote)
+router.put("/:id", updateNote)
+router.delete("/:id", deleteNote)
 
 export default router;
