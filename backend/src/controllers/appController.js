@@ -3,7 +3,7 @@ import Note from "../models/noteModel.js"
 export const homePage = async (req, res) => {
     try {
         const allNotes = await Note.find();
-        res.status(200).json({ message: "Welcome to homepage", allNotes })
+        res.status(200).json(allNotes)
     } catch (error) {
         res.status(500).json({ message: error })
     }

@@ -1,13 +1,19 @@
 import express from "express"
 import dotenv from "dotenv"
+import cors from "cors"
 import router from "./routes/appRoutes.js"
 import dbConnection from "./config/dbConnect.js"
 
 dotenv.config()
 dbConnection()
 
-
 const app = express()
+
+const corsOptions = {
+    origin: "http://localhost:3001",
+    credentials: true,
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.use("/api", router)
