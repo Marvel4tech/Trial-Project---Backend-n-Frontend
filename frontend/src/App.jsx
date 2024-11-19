@@ -1,10 +1,10 @@
-
+import NoteApp from "./components/NoteApp"
 
 function App() {
 
   return (
-    <div>
-        
+    <div className=" h-screen bg-black">
+        <NoteApp />
     </div>
   )
 }
