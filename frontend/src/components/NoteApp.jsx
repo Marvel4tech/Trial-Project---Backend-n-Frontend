@@ -34,6 +34,16 @@ const NoteApp = () => {
         }
    }
 
+   const handleDelete = async (id) => {
+     try {
+        const response = await api.delete(`/${id}`);
+        console.log(response.data)
+        setNotes(notes.filter((note) => note._id !== id))
+     } catch (error) {
+        console.log(error)
+     }
+   }
+
   return (
     <div className=' bg-gray-950 max-w-4xl mx-auto h-full border border-yellow-400 rounded-md p-10'>
         <div>
@@ -57,7 +67,7 @@ const NoteApp = () => {
                 <ul className=' space-y-3'>
                    {
                      notes.map((note) => (
-                        <li key={note._id} className=' w-full flex justify-between'>
+                        <li key={note._id} className=' w-full flex justify-between gap-2'>
                             <p className=' text-black bg-gray-300 text-sm px-4 py-1 rounded-sm'>
                                 {note.text}
                             </p>
@@ -65,7 +75,8 @@ const NoteApp = () => {
                                 <button className=' bg-gray-600 hover:bg-gray-700 text-sm py-1 px-3 text-slate-200 rounded-md'>
                                     Edit
                                 </button>
-                                <button className=' bg-red-600 hover:bg-red-700 text-sm py-1 px-3 text-slate-200 rounded-md'>
+                                <button className=' bg-red-600 hover:bg-red-700 text-sm py-1 px-3 text-slate-200 rounded-md' 
+                                onClick={() => handleDelete(note._id)}>
                                     Delete
                                 </button>
                             </div>
