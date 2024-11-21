@@ -19,7 +19,30 @@ export const register = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    res.status(200).json({ message: "login page" })
+    const { username, email, password } = req.body;
+    try {
+        // Find the user by email
+        const user = await User.findOne({ $or: [{ email }, { username }] })
+        if (!user) {
+            return res.status(404).json({ message: "User not found" })
+        }
+
+        // Compare the password with the hashed password in the database
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid credentials" })
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign(
+            { id: user._id }, 
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        )
+        res.status(200).json({ message: "Login successful", token, user: { id: user._id, username: user.username, email: user.email } })
+    } catch (error) {
+        res.status(500).json({ error: "Error logging in", message: error });
+    }
 }
 
 export const authStatus = async (req, res) => {
